@@ -12,9 +12,7 @@ RUN buildDeps=' \
         libencode-perl \
         make \
     ' \
-    url="https://rakudo.org/downloads/star/rakudo-star-${rakudo_version}.tar.gz" \
-    keyserver='ha.pool.sks-keyservers.net' \
-    keyfp='ECF8B611205B447E091246AF959E3D6197190DD5' \
+    url="https://github.com/rakudo/rakudo/archive/${rakudo_version}.tar.gz" \
     tmpdir="$(mktemp -d)" \
     && set -x \
     && export GNUPGHOME="$tmpdir" \
@@ -23,10 +21,7 @@ RUN buildDeps=' \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir ${tmpdir}/rakudo \
     \
-    && curl -fsSL ${url}.asc -o ${tmpdir}/rakudo.tar.gz.asc \
     && curl -fsSL $url -o ${tmpdir}/rakudo.tar.gz \
-    && gpg --batch --keyserver $keyserver --recv-keys $keyfp \
-    && gpg --batch --verify ${tmpdir}/rakudo.tar.gz.asc ${tmpdir}/rakudo.tar.gz \
     \
     && tar xzf ${tmpdir}/rakudo.tar.gz --strip-components=1 -C ${tmpdir}/rakudo \
     && ( \
