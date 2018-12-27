@@ -5,7 +5,12 @@
 This Docker image has been forked from  [Rakudo Star](https://github.com/perl6/docker), which is a Perl 6 compiler distribution that includes MoarVM
 virtual machine, Rakudo Perl 6 compiler, a suite of modules that users
 may find useful, and language documentation. Instead of limiting
-itself to the Star builds, it's got images for every monthly release.
+itself to the Star builds, it's got images for every monthly
+release. It does not include most of the modules Rakudo does, limiting
+itself to the most needed ones.
+
+> If you need some other module to be added, just raise an issue
+> here. 
 
 Project homepage: https://rakudo.org
 
