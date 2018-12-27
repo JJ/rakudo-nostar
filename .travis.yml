@@ -1,7 +1,6 @@
 sudo: enabled
+language: minimal
 services:
     - docker
-before_script:
-    - wget -qO- 'https://github.com/tianon/pgp-happy-eyeballs/raw/master/hack-my-builds.sh' | bash
 script:
-    - docker build -t rakudo-star .
+    - docker build -t rakudo-nostar .
