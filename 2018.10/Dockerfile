@@ -11,6 +11,7 @@ RUN buildDeps=' \
         gcc \
         libc6-dev \
         libencode-perl \
+        libssl-dev \
         make \
     ' \
     url="https://github.com/rakudo/rakudo/archive/${rakudo_version}.tar.gz" \
@@ -29,13 +30,14 @@ RUN buildDeps=' \
         && perl Configure.pl --prefix=/usr --gen-moar \
         && make install \
     ) \
-    && rm -rf $tmpdir \
     \
-    cd /tmp \
+    && cd $tmpdir \
     && git clone https://github.com/ugexe/zef.git \
     && prove -v -e 'perl6 -I zef/lib' zef/t \
     && perl6 -Izef/lib zef/bin/zef --verbose install ./zef \
-    && zef install Linenoise
+    && zef install Linenoise \
+    && rm -rf $tmpdir 
+
 
 
 CMD ["perl6"]
