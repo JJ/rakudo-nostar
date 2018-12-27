@@ -3,7 +3,7 @@ MAINTAINER JJ Merelo
 
 RUN groupadd -r perl6 && useradd -r -g perl6 perl6
 
-ARG rakudo_version=2018.12
+ARG rakudo_version=2018.10
 ENV rakudo_version=${rakudo_version}
 
 RUN buildDeps=' \
