@@ -5,6 +5,7 @@ RUN groupadd -r perl6 && useradd -r -g perl6 perl6
 
 ARG rakudo_version=2018.12
 ENV rakudo_version=${rakudo_version}
+ENV PATH=$PATH:/usr/share/perl6/site/bin
 
 RUN buildDeps=' \
         gcc \
@@ -15,7 +16,6 @@ RUN buildDeps=' \
     url="https://github.com/rakudo/rakudo/archive/${rakudo_version}.tar.gz" \
     tmpdir="$(mktemp -d)" \
     && set -x \
-    && export GNUPGHOME="$tmpdir" \
     && apt-get update \
     && apt-get --yes install --no-install-recommends $buildDeps \
     && rm -rf /var/lib/apt/lists/* \
@@ -30,8 +30,12 @@ RUN buildDeps=' \
         && make install \
     ) \
     && rm -rf $tmpdir \
-    && apt-get purge -y --auto-remove $buildDeps
+    \
+    cd /tmp \
+    && git clone https://github.com/ugexe/zef.git \
+    && prove -v -e 'perl6 -I zef/lib' zef/t \
+    && perl6 -Izef/lib zef/bin/zef --verbose install ./zef \
+    && zef install Linenoise
 
-ENV PATH=$PATH:/usr/share/perl6/site/bin
 
 CMD ["perl6"]
