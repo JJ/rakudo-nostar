@@ -3,7 +3,7 @@ MAINTAINER JJ Merelo
 
 RUN groupadd -r perl6 && useradd -r -g perl6 perl6
 
-ARG rakudo_version=2019.03.1
+ARG rakudo_version=2018.12
 ENV rakudo_version=${rakudo_version}
 ENV PATH=$PATH:/usr/share/perl6/site/bin
 
@@ -37,6 +37,7 @@ RUN buildDeps=' \
     && perl6 -Izef/lib zef/bin/zef --verbose install ./zef \
     && zef install Linenoise LWP::Simple\
     && rm -rf $tmpdir 
+
 
 
 CMD ["perl6"]
