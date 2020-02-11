@@ -1,9 +1,9 @@
 FROM buildpack-deps:stretch-scm
 MAINTAINER JJ Merelo
 
-RUN groupadd -r raku && useradd -r -g raku raku
+RUN groupadd -r perl6 && useradd -r -g perl6 perl6
 
-ARG rakudo_version=2020.01
+ARG rakudo_version=2019.03.1
 ENV rakudo_version=${rakudo_version}
 ENV PATH=$PATH:/usr/share/perl6/site/bin
 
@@ -14,7 +14,7 @@ RUN buildDeps=' \
         libssl-dev \
         make \
     ' \
-    url="https://github.com/rakudo/rakudo/releases/download/2020.01/rakudo-${rakudo_version}.tar.gz" \
+    url="https://github.com/rakudo/rakudo/archive/${rakudo_version}.tar.gz" \
     tmpdir="$(mktemp -d)" \
     && set -x \
     && apt-get update \
@@ -27,17 +27,16 @@ RUN buildDeps=' \
     && tar xzf ${tmpdir}/rakudo.tar.gz --strip-components=1 -C ${tmpdir}/rakudo \
     && ( \
         cd ${tmpdir}/rakudo \
-        ls rakudo/3rd-party \
-        && perl Configure.pl --prefix=/usr --gen-moar --gen-nqp --backends=moar\
+        && perl Configure.pl --prefix=/usr --gen-moar \
         && make install \
     ) \
     \
     && cd $tmpdir \
     && git clone https://github.com/ugexe/zef.git \
-    && prove -v -e 'raku -I zef/lib' zef/t \
+    && prove -v -e 'perl6 -I zef/lib' zef/t \
     && perl6 -Izef/lib zef/bin/zef --verbose install ./zef \
     && zef install Linenoise LWP::Simple\
     && rm -rf $tmpdir 
 
 
-CMD ["raku"]
+CMD ["perl6"]
