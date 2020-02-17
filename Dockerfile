@@ -1,7 +1,8 @@
 FROM buildpack-deps:stretch-scm
-MAINTAINER JJ Merelo
+
 
 RUN groupadd -r raku && useradd -r -g raku raku
+LABEL version="1.0.0" maintainer="JJMerelo@GMail.com"
 
 ARG rakudo_version=2020.01
 ENV rakudo_version=${rakudo_version}
