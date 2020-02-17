@@ -1,8 +1,8 @@
 FROM buildpack-deps:stretch-scm
 
-
-RUN groupadd -r raku && useradd -r -g raku raku
 LABEL version="1.0.0" maintainer="JJMerelo@GMail.com"
+
+RUN groupadd -r raku && useradd -m -k -r -g  raku raku
 
 ARG rakudo_version=2020.01
 ENV rakudo_version=${rakudo_version}
@@ -40,5 +40,6 @@ RUN buildDeps=' \
     && zef install Linenoise LWP::Simple\
     && rm -rf $tmpdir 
 
+WORKDIR /home/raku
 
 CMD ["raku"]
